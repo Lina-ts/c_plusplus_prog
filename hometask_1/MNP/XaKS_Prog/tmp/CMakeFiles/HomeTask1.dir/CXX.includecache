@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/akurbanova/hub_prog/c_plusplus_prog/hometask_1/MNP/XaKS_Prog/HomeTask1.cpp
+HomeTask1.h
+/home/akurbanova/hub_prog/c_plusplus_prog/hometask_1/MNP/XaKS_Prog/HomeTask1.h
+
+/home/akurbanova/hub_prog/c_plusplus_prog/hometask_1/MNP/XaKS_Prog/HomeTask1.h
+string
+-
+iostream
+-
+fstream
+-
+vector
+-
+
+/home/akurbanova/hub_prog/c_plusplus_prog/hometask_1/MNP/XaKS_Prog/MNP.cpp
+HomeTask1.h
+/home/akurbanova/hub_prog/c_plusplus_prog/hometask_1/MNP/XaKS_Prog/HomeTask1.h
+stdlib.h
+-
+

@@ -1,0 +1,3 @@
+/home/akurbanova/hub_prog/c_plusplus_prog/hometask_1/MNP/XaKS_Prog/tmp/CMakeFiles/rebuild_cache.dir
+/home/akurbanova/hub_prog/c_plusplus_prog/hometask_1/MNP/XaKS_Prog/tmp/CMakeFiles/HomeTask1.dir
+/home/akurbanova/hub_prog/c_plusplus_prog/hometask_1/MNP/XaKS_Prog/tmp/CMakeFiles/edit_cache.dir
