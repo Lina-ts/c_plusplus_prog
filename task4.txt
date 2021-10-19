@@ -1,0 +1,281 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// çàïèñü ïàìÿòíèê, ñîäåðæèò íåîáõîäèìûå ïîëÿ
+struct monument
+{
+	char name[20];
+	char location[20];
+	char type[10];
+	char architect[10];
+	int year;
+};
+
+// îáúÿâëåíèå èñïîëüçóåìûõ ôóíêöèé, 
+// èõ êîäû íàõîäÿòñÿ ïîñëå îñíîâíîé ïðîãðàììû
+void add (char*);
+void edit (char*);
+void show (char*);
+void search_type (char*);
+void search_old (char*);
+void del (char*);
+
+// îñíîâíàÿ ïðîãðàììà
+int main (int argc, char * argv[])
+{
+	char file[50]="monument.dat";
+	char menu;
+	if (argc>1)
+	strcpy (file, argv[1]);
+	do
+	{
+		system ("CLS");
+		puts ("1. Add");
+		puts ("2. Edit");
+		puts ("3. Show");
+		puts ("4. Search type and year < 1800");
+		puts ("5. Search old monument");
+		puts ("6. Delete record");
+		puts ("7. Exit");
+		menu = getchar();
+		switch (menu) 
+		{
+			case '1': add (file); break;
+			case '2': edit (file); break;
+			case '3': show (file); break;
+			case '4': search_type (file); break;
+			case '5': search_old (file); break;
+			case '6': del (file);
+		}
+	}
+	while (menu!='7');
+	return 0;
+}
+
+// ñîçäàíèå îäíîé çàïèñè çàäàííîé ñòðóêòóðû
+struct monument input_record (void) 
+{
+	struct monument record;
+	int temp;
+	getchar();
+	puts ("Name");      gets (record.name);
+	puts ("Location");  gets (record.location);
+	puts ("Type");      gets (record.type);
+	puts ("Architect"); gets (record.architect);	
+	puts ("Year"); 	    scanf ("%d", &record.year);	
+	
+	return record;
+}
+
+// ïóíêò ìåíþ - äîáàâèòü, äîáàâëÿåò íîâóþ çàïèñü â ôàéë
+void add (char* file)
+{
+	FILE * f;
+	struct monument record;
+	system ("CLS");
+	if ((f=fopen (file, "ab"))==NULL)
+	{
+		perror ("Error open file"); 
+		system ("pause");
+		return;
+	}
+	record = input_record(); // èñïîëüçóåò ôóíêöèþ ñîçäàíèÿ îäíîé çàïèñè
+	fwrite (&record, sizeof (record), 1, f);
+	fclose (f);
+}
+
+// îòäåëüíàÿ ôóíêöèÿ ïîñòðî÷íîé ïå÷àòè ñòóðêòóðû
+void print1 (struct monument data)
+{
+	printf ("Name : %s\nLocation : %s\nType : %s\nArchitect : %s\nYear : %d\n", 
+		data.name,
+		data.location,
+		data.type,
+		data.architect,
+		data.year);
+}
+
+// ôóíêöèÿ ðåäàêòèðîâàíèÿ âûáðàííîé çàïèñè
+// âûáîð çàïèñè îñóùåñòâëÿåòñÿ ïî èìåíè ïàìÿòíèêà
+void edit (char* file)
+{
+	FILE * f;
+	struct monument record;
+	int n, k;
+	char name[20],yes;
+	system ("CLS");
+	if ((f=fopen (file, "rb+"))==NULL)
+	{
+		perror ("Error open file"); 
+		system ("pause");
+		return; 
+	}
+	printf ("Name: ");
+	getchar();
+	gets (name);
+	while (fread(&record,sizeof(record), 1, f))
+	if (!strcmp(record.name,name))
+	{
+		print1 (record);
+		puts ("Redact? (y/n)");
+		do
+			yes=getchar();
+		while (yes!='y' && yes!='Y' && yes!='n' && yes!='N');
+		if (yes=='y' || yes=='Y')
+		{
+			record = input_record();
+			fseek(f,-sizeof(record),SEEK_CUR);
+			fwrite (&record, sizeof (record), 1, f);
+			fseek(f,0,SEEK_CUR);
+		}
+	}
+	system ("pause");
+	fclose(f);
+}
+
+// ïîêàç ñîäåðæèìîãî ôàéëà â âèäå òàáëèöû
+void show (char* file)
+{
+	FILE * f;
+	struct monument record;
+	int k=0;
+	system ("CLS");
+	if ((f=fopen (file, "rb"))==NULL)
+	{
+		perror ("Error open file"); 
+		system ("pause"); 
+		return;
+	}
+	puts ("|  N  |          Name        |  Location   |   Type   | Architect|  Year |");
+	puts  ("-------------------------------------------------------------------------");
+	while (fread(&record, sizeof(record), 1, f)==1)
+	printf  ("|%3d  |  %-20s|  %-11s| %-8s | %-8s |%5d  |\n",  ++k,  
+	record.name, record.location, record.type, record.architect, record.year);
+	puts  ("-------------------------------------------------------------------------");
+	fclose (f); 
+	system ("pause");
+}
+
+// ïîäïðîãðàììà ïîèñêà èíôîðìàöèè ïî çàäàííîìó òèïó ïîñòðîéêè
+// âûâîäÿòñÿ ïîñòðîéêè äî 18 âåêà
+void search_type (char* file)
+{
+	FILE * f;
+	struct monument record;
+	char stype[10];
+	int max_age=0, k=-1, pos;
+	system ("CLS");
+	if ((f=fopen (file, "rb"))==NULL)
+	{
+		perror ("Error open file"); 
+		system ("pause"); 
+		return;
+	}
+	getchar();
+	puts ("Type?"); 
+	gets (stype);
+	
+	while (fread(&record, sizeof(record), 1, f)==1)
+	{
+		if (!strcmp(record.type,stype) && record.year < 1800)
+		printf  ("|%3d  |  %-20s|  %-11s| %-8s | %-8s |%5d  |\n",  ++k,  
+	record.name, record.location, record.type, record.architect, record.year);
+	}
+	
+	fclose(f);
+	system ("pause");
+}
+
+// âûâîä èíôîðìàöèè ñàìîãî ñòàðîãî ïàìÿòíèêà
+void search_old (char* file)
+{
+	FILE * f;
+	struct monument record;
+	float year;
+	int min_year = 10000, k=-1, pos;
+	system ("CLS");
+	if ((f=fopen (file, "rb"))==NULL)
+	{
+		perror ("Error open file"); 
+		system ("pause"); 
+		return;
+	}
+
+   // ñíà÷àëà èùåì ìèíèìàëüíûé ãîä - ò.å. ñàìûé ñòàðûé ïàìÿòíèê
+	while (fread(&record, sizeof(record), 1, f)==1)
+	{
+		if (record.year < min_year)
+		{
+			min_year = record.year;
+			pos = ftell(f);
+		}
+	}
+	// çàòåì âûâîäèì çàïèñü ïî óêàçàííîé ïîçèöèè pos
+	fseek(f,pos-sizeof(record),SEEK_SET);
+	fread(&record, sizeof(record), 1, f);
+	print1 (record);
+
+	fclose(f);
+	system ("pause");
+}
+
+// ïîäïðîãðàììà óäàëåíèÿ çàïèñè èç ôàéëà äàííûõ
+void del (char* file)
+{
+	FILE * f, *tmp;
+	struct monument record;
+	char name[20], yes;
+	long pos, i, size;
+	system ("CLS");
+	
+	if ((f=fopen (file, "rb"))==NULL)
+	{
+		perror ("Error open file"); 
+		system ("pause"); 
+		return;
+	}
+	getchar();
+	puts ("Full name for delete?");
+	gets (name);
+	size=sizeof(record);
+	while (fread(&record, size, 1, f))
+	{
+		if (!strcmp(name, record.name)) 
+		{
+			print1 (record);
+			puts ("Delete? (y/n)");
+			do
+			yes=getchar();
+			while (yes!='y' && yes!='Y' && yes!='n' && yes!='N');
+			if (yes=='y' || yes=='Y')
+			{
+				pos=ftell(f)-size;
+				if ((tmp=fopen ("tmp.dat", "wb"))==NULL)
+				{
+					perror ("Error creat file"); 
+					fclose(f);
+					system ("pause"); 
+					return;
+				}
+				rewind(f);
+				for (i=0; i<pos; i+=size)
+				{
+					fread(&record, size, 1, f);
+					fwrite(&record, size, 1, tmp);
+				}
+				fread(&record, size, 1, f);
+				while (fread(&record, size, 1, f)) 
+				{
+					fwrite(&record, size, 1, tmp);
+				}
+				fclose (f);
+				fclose (tmp);
+				remove (file);
+				rename ("tmp.dat", file);
+				return;
+			}
+		}
+	}	
+	system("pause");
+}
