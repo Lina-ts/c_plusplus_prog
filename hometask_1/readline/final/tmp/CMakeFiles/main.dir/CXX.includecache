@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/akurbanova/hub_prog/c_plusplus_prog/hometask_1/readline/final/main.cpp
+iostream
+-
+sstream
+-
+string
+-
+vector
+-
+fstream
+-
+readline/history.h
+-
+readline/readline.h
+-
+

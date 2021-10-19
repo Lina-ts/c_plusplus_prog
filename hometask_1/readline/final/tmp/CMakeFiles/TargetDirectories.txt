@@ -1,0 +1,3 @@
+/home/akurbanova/hub_prog/c_plusplus_prog/hometask_1/readline/final/tmp/CMakeFiles/rebuild_cache.dir
+/home/akurbanova/hub_prog/c_plusplus_prog/hometask_1/readline/final/tmp/CMakeFiles/main.dir
+/home/akurbanova/hub_prog/c_plusplus_prog/hometask_1/readline/final/tmp/CMakeFiles/edit_cache.dir
