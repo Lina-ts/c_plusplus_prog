@@ -1,0 +1,4 @@
+Group1 faculty1 10 2
+Group2 faculty2 12 5
+Group3 faculty3 14 7
+Group4 faculty4 16 2
