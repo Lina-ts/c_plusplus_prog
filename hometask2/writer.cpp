@@ -12,26 +12,28 @@
   
 int main(int argc, char *argv[])
 {
-    int len;	
-	
-    int shm_fd = shm_open("/MyMemoryMap",O_CREAT | O_RDWR, 0777);
+    void *memory;
+	//int len;	
+    std::cout << "Usege: <write> [text]" << std::endl;
+
+    int shm_fd = shm_open("my_shared_memory",O_CREAT | O_RDWR, 0777);
 
     if (shm_fd == -1) {
 	   perror("shm_open");
 	   return 1;
     }
 
-    if (ftruncate((shm_fd, SHARED_MEMORY_OBJECT_SIZE+1) == -1) {
+    if (ftruncate(shm_fd, 100) == -1) {
 	   perror("ftruncate");
-	   return false;
+	   return 1;
     }
 
-    void *memory = mmap(NULL, 1000, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
-    if (memory == NULL) {
+    memory = mmap(NULL, 100, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+    if (memory == MAP_FAILED) {
         perror("mmap");
-        return false;
+        return 1;
     }
     
-    return memory; 
+//    return memory;
     return 0;
 }
