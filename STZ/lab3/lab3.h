@@ -1,4 +1,7 @@
-#pragma once
+#ifndef Train_H
+#define Train_H
+#include <iostream>
+
 class Train 
 {
 public:
@@ -13,3 +16,4 @@ private:
 	int move;
 	int doors;
 };
+#endif

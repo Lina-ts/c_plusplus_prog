@@ -1,0 +1,1 @@
+/usr/bin/c++   -pthread  -rdynamic CMakeFiles/simplehttpserver.dir/main.cpp.o  -o simplehttpserver -Wl,-rpath,/usr/local/lib /usr/local/lib/libboost_chrono.so.1.77.0 

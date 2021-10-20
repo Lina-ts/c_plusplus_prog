@@ -1,0 +1,3 @@
+/home/akurbanova/hub_prog/c_plusplus_prog/STZ/simplehttpserver/tmp/CMakeFiles/rebuild_cache.dir
+/home/akurbanova/hub_prog/c_plusplus_prog/STZ/simplehttpserver/tmp/CMakeFiles/simplehttpserver.dir
+/home/akurbanova/hub_prog/c_plusplus_prog/STZ/simplehttpserver/tmp/CMakeFiles/edit_cache.dir

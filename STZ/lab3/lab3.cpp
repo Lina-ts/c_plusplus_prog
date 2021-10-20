@@ -1,6 +1,4 @@
 #include "lab3.h"
-#include <iostream>
-//#include "lab3.h"
 
 Train::Train(): move(0), doors(1) { //двери закрыты, поезд не едет		
 

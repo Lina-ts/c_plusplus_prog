@@ -1,4 +1,3 @@
-#include <iostream>
 #include "lab3.h"
 int main()
 {
